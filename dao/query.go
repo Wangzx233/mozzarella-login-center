@@ -25,6 +25,12 @@ func VerifyUser(studentID, realName string) (ok bool, err error) {
 	return
 }
 
+// FindUserByUid uid找到用户
+func FindUserByUid(uid string) (user model.User, err error) {
+	err = db.Model(&model.User{}).Where("uid = ?", uid).First(&user).Error
+	return
+}
+
 // FindUserByOpenid openid找到用户
 func FindUserByOpenid(domain, openid string) (user model.User, err error) {
 	switch domain {

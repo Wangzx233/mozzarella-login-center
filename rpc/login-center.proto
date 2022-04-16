@@ -1,0 +1,21 @@
+syntax = "proto3"; // 版本声明，使用Protocol Buffers v3版本
+
+package pb; // 包名
+
+option go_package = "mozzarella-login-center/rpc;rpc";
+
+// 定义服务
+service MozzarellaLoginCenter {
+  rpc FindUser (FindUserRequest) returns (FindUserReply) {}
+}
+
+
+// 请求消息
+message FindUserRequest {
+  string Uid = 1;
+}
+
+message FindUserReply {
+  string StudentID = 1;
+  string RealName = 2;
+}

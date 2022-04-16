@@ -9,6 +9,7 @@ import (
 func main() {
 	dao.InitMysql()
 	dao.InitRedis()
+	go rpc.InitRpc()
 	rpc.RegisterCenter()
 	route.InitRoute()
 }
