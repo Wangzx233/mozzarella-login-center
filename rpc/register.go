@@ -14,7 +14,7 @@ const (
 	ip          = "8.142.81.74"
 	port        = 8085
 	version     = "0.0.1"
-	grpcPort    = "8085"
+	grpcPort    = "8902"
 )
 
 var (
