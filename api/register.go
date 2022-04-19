@@ -36,7 +36,7 @@ func Register(c *gin.Context) {
 	}
 
 	p, s := logic.IsRegister(user.PhoneNumber, user.StudentID)
-	if s && p {
+	if s || p {
 		c.JSON(401, gin.H{
 			"status": 50000,
 			"info":   "用户已存在",

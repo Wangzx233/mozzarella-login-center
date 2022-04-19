@@ -4,8 +4,33 @@ import (
 	"github.com/gin-gonic/gin"
 	"log"
 	"mozzarella-login-center/dao"
+	"mozzarella-login-center/resps"
 )
 
+func IsRegister(c *gin.Context) {
+	studentId := c.Query("student_id")
+	domain := c.Query("domain")
+
+	is, user := dao.IsRegisterStudentID(studentId)
+	if is {
+		switch domain {
+		case "xcx":
+			if user.XcxOpenID == "" {
+				is = false
+			}
+		case "app":
+			if user.AppOpenID == "" {
+				is = false
+			}
+		}
+	}
+
+	resps.OKWithData(c, gin.H{
+		"is_register": is,
+	})
+}
+
+// Check 检查学号和姓名是否合法
 func Check(c *gin.Context) {
 	studentID := c.Query("student_id")
 	realName := c.Query("real_name")

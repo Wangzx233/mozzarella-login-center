@@ -14,7 +14,10 @@ func InitRoute() {
 		xcx := user.Group("/xcx")
 		{
 			xcx.POST("/login", api.XcxLogin)
+
 		}
+
+		xcx.GET("/isRegister", api.IsRegister) //判断用户是否已经注册
 
 		user.POST("/login", api.LoginByCode)
 		user.POST("/register", api.Register)

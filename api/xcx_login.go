@@ -17,7 +17,7 @@ import (
 
 var (
 	appid           = "wxc58c92b1f02c1933"
-	appSecret       = ""
+	appSecret       = "bb33746ef6e760afaa2f928cc1cddc02"
 	code2SessionURL = "https://api.weixin.qq.com/sns/jscode2session?appid=" + appid + "&secret=" + appSecret + "&js_code=%s&grant_type=authorization_code"
 )
 
@@ -42,14 +42,16 @@ func XcxLogin(c *gin.Context) {
 	stuNum := c.PostForm("student_id")
 	realName := c.PostForm("real_name")
 
-	//检查学号和姓名正确性
-	ok, err := dao.VerifyUser(stuNum, realName)
-	if !ok {
-		resps.ParamError(c)
-		return
-	}
+	//3.判断此openid是否绑定用户数据
+	user, err := dao.FindUserByOpenid("xcx", session.Openid)
 	//若得到stuNum和realName说明需要绑定绑定
-	if stuNum != "" && realName != "" {
+	if stuNum != "" && realName != "" && user.StudentID != stuNum {
+		//检查学号和姓名正确性
+		ok, err := dao.VerifyUser(stuNum, realName)
+		if !ok {
+			resps.ParamError(c)
+			return
+		}
 		//根据stuNum查询是否绑定其他应用
 		err = logic.Bind("xcx", session.Openid, session.UnionId, stuNum, realName)
 		if err != nil {
@@ -59,8 +61,6 @@ func XcxLogin(c *gin.Context) {
 		}
 	}
 
-	//3.判断此openid是否绑定用户数据
-	user, err := dao.FindUserByOpenid("xcx", session.Openid)
 	//3.1若没有绑定则返回提示信息，由前端跳转到绑定页面附带stuNum和realName再次请求该接口
 	if err != nil {
 		log.Println("openid[" + session.Openid + "] 需要绑定信息")
