@@ -17,7 +17,7 @@ func InitRoute() {
 
 		}
 
-		xcx.GET("/isRegister", api.IsRegister) //判断用户是否已经注册
+		user.GET("/isRegister", api.IsRegister) //判断用户是否已经注册
 
 		user.POST("/login", api.LoginByCode)
 		user.POST("/register", api.Register)
@@ -25,6 +25,13 @@ func InitRoute() {
 
 		user.GET("/login", api.SendLoginCode) //发送登陆短信验证码
 		user.GET("/register", api.SendRegisterCode)
+
+		user.GET("/refresh", api.Refresh)
+
+		app := user.Group("/app")
+		{
+			app.GET("/getTestToken", api.GetTestToken) //测试临时接口
+		}
 	}
 
 	engine.Run(":8085")
