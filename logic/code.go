@@ -12,7 +12,7 @@ import (
 )
 
 func SendCode(phoneNumber string) (code string, err error) {
-	client, err := CreateClient(tea.String("LTAI5tMgY1RqYU1fikp5feaH"), tea.String("TDtSUGQM1QmTt97Oxks5rEe45ef7qG"))
+	client, err := CreateClient(tea.String(""), tea.String(""))
 	if err != nil {
 
 		return
